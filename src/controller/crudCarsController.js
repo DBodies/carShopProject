@@ -1,15 +1,18 @@
 import { getAllCars, getCarById } from "../services/crudCars.js"
 import { parseFilterParams } from "../utils/parsePagination.js"
+import { parsedFiltersParams } from "../utils/parseParams.js"
 import { parseSortParams } from "../utils/parseSortParams.js"
 
 export const getAllCarsController = async (req,res) => {
     const {page, perPage} = parseFilterParams(req.query)
     const {sortOrder, sortBy} = parseSortParams(req.query)
+    const filter = parsedFiltersParams(req.query)
     const response = await getAllCars({
         page,
         perPage,
         sortOrder,
-        sortBy
+        sortBy,
+        filter
     })
     res.status(200).json({
         message: "successfully getting all cars",
