@@ -33,4 +33,24 @@ export const getCarById = async (carId) => {
     }
     return car
 }
-
+export const deleteCarById = async (carId) => {
+    const car = carsCollection.findByIdAndDelete(carId)
+    if(!car) {
+    throw createHttpError(404, `car with id ${carId} was not found`)
+    }
+    return car
+}
+export const upsertedCar = async (carId, payload, options = {}) => {
+    const rawResult = await carsCollection.findByIdAndUpdate(
+        {_id:carId}, 
+        payload, {
+        new: true,
+        includeResultMetadata: true,
+        ...options
+    })
+    if(!rawResult || !rawResult.value) return null
+    return {
+        car: rawResult.value,
+        isNew: Boolean(rawResult?.lastErrorObject?.upserted)
+    }
+}
