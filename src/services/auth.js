@@ -33,7 +33,7 @@ if(user) {
 
     const accessToken = randomBytes(64).toString('base64')
     const refreshToken = randomBytes(64).toString( 'base64')
-    
+
     return await sessionCollection.create({
         userId: user._id,
         accessToken,
@@ -52,4 +52,24 @@ export const createSession = () => {
         refreshToken,
         refreshTokenValidUntil: new Date(Date.now + ONE_DAY)
     }
+}
+export const logoutUser = async (sessionId) => {
+    await sessionCollection.deleteOne({_id: sessionId})
+}
+export const refreshSession = async ({ sessionId, refreshToken }) => {
+    const session = await sessionCollection.findOne({_id:sessionId, refreshToken})
+    if (!session) {
+        throw createHttpError(401, 'Session not found')
+    }
+    const isTokenExpired = new Date() > new Date(session.refreshTokenValidUntil);
+    if (isTokenExpired) {
+        throw createHttpError(401, 'Token is expired')
+    }
+    const newSession = createSession()
+    await sessionCollection.deleteOne({_id:sessionId, refreshToken})
+    return sessionCollection.create({
+        userId: session.userId,
+        ...newSession
+
+    })
 }
