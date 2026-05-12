@@ -1,12 +1,15 @@
 export const filters = (carQuery, filter) =>  {
     if(filter.brand) {
-        carQuery.where('brand').equals(filter.brand)
+        carQuery.where('brand').regex(new RegExp(`^${filter.brand}$`, 'i'))
     }
     if(filter.model) {
-        carQuery.where('model').equals(filter.model)
+        carQuery.where('model').regex(new RegExp(`^${filter.model}$`, 'i'))
     }
     if(filter.minYear) {
         carQuery.where('year').gte(filter.minYear)
+    }
+    if (filter.price_usd) {
+        carQuery.where('price_usd').equals(filter.price_usd)
     }
     if(filter.maxYear) {
         carQuery.where('year').lte(filter.maxYear)

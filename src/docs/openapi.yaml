@@ -1,0 +1,28 @@
+openapi: 3.1.0
+info:
+  version: 1.0.0
+  title: cars app
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  description: this is a documentation of cars app
+tags:
+  - name: Cars
+    description: Operations about users.
+  - name: Auth
+    description: Auth operations.
+servers:
+  - url: http://localhost:4330
+  - url: https://example.com/api/v1
+paths:
+  /cars/{id}:
+    get:
+      $ref: ../../swagger/path/cars/id/getCarById.yaml
+  /cars/allCars:
+    get: 
+      $ref: ../../swagger/path/cars/getAllCars.yaml
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer

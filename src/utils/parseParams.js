@@ -42,6 +42,7 @@ export const parsedFiltersParams = (query) => {
     const numberFields = [
         'minYear', 
         'maxYear',
+        'price_usd',
         'minPrice_usd', 'maxPrice_usd',
         'minMileage_km', 'maxMileage_km']
     numberFields.forEach(field => {

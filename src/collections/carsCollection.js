@@ -12,10 +12,16 @@ _id: {
     type: String,
     required: true
 },
-brand: String,
-model: String,
+brand: {
+    type: String,
+    required: true
+},
+model: {
+    type: String,
+    required: true
+},
 year: Number,
-price_use: Number,
+price_usd: Number,
 mileage_km: Number,
 engine: engineSchema,
 transmission: String,

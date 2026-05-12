@@ -33,7 +33,7 @@ export const createCarSchema = Joi.object({
       'any.required': 'Year is required'
     }),
 
-  price_use: Joi.number()
+  price_usd: Joi.number()
     .min(0)
     .required()
     .messages({
@@ -126,7 +126,10 @@ export const createCarSchema = Joi.object({
     .messages({
       'boolean.base': 'in_stock must be boolean'
     })
+  
 })
+
+
 export const carPatchSchema = Joi.object({
   brand: Joi.string().messages({
     'string.base': 'Brand must be a string'

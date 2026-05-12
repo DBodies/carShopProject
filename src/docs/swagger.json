@@ -1,0 +1,318 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "cars app",
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "description": "this is a documentation of cars app"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:4330"
+    },
+    {
+      "url": "https://example.com/api/v1"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Cars",
+      "description": "Operations about users."
+    },
+    {
+      "name": "Auth",
+      "description": "Auth operations."
+    }
+  ],
+  "paths": {
+    "/cars/{id}": {
+      "get": {
+        "tags": [
+          "Car"
+        ],
+        "summary": "Get Car by id",
+        "operationId": "getCar",
+        "description": "Get car by id",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "ford_focus_2018"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "getting car by id'",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully getting an car by id ford_focus_2018"
+                    },
+                    "data": {
+                      "type": "object",
+                      "$ref": "#/components/schemas/carByIdSchema"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          }
+        }
+      }
+    },
+    "/cars/allCars": {
+      "get": {
+        "tags": [
+          "Cars"
+        ],
+        "summary": "Get all cars",
+        "operationId": "getAllCars",
+        "description": "Getting all cars",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successfully getting all cars",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully getting all cars"
+                    },
+                    "data": {
+                      "type": "object",
+                      "$ref": "#/components/schemas/carByIdSchema"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
+    "schemas": {
+      "engine": {
+        "type": "object",
+        "required": [
+          "type",
+          "volume_l",
+          "power_hp"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "petrol",
+              "diesel",
+              "hybrid",
+              "electric"
+            ]
+          },
+          "volume_l": {
+            "type": "number",
+            "minimum": 0
+          },
+          "power_hp": {
+            "type": "number",
+            "minimum": 0
+          }
+        }
+      },
+      "carByIdSchema": {
+        "type": "object",
+        "required": [
+          "_id",
+          "brand",
+          "model",
+          "year",
+          "price_usd",
+          "mileage_km",
+          "engine",
+          "transmission",
+          "drivetrain",
+          "body_type",
+          "color"
+        ],
+        "properties": {
+          "_id": {
+            "description": "Cars id",
+            "type": "string",
+            "example": "65ca67e7ae7f10c88b598384"
+          },
+          "brand": {
+            "description": "Car`s brand",
+            "type": "string",
+            "example": "BMW"
+          },
+          "model": {
+            "description": "Car`s model",
+            "type": "string",
+            "example": "BMW_M3"
+          },
+          "year": {
+            "description": "Car`s year",
+            "type": "integer",
+            "example": 2022
+          },
+          "price_usd": {
+            "description": "Car`s price",
+            "type": "integer",
+            "example": 17800
+          },
+          "mileage_km": {
+            "description": "Car`s mileage",
+            "type": "integer",
+            "example": 76000
+          },
+          "engine": {
+            "$ref": "#/components/schemas/engine"
+          },
+          "transmission": {
+            "description": "Car`s transmission",
+            "type": "string",
+            "enum": [
+              "manual",
+              "automatic",
+              "cvt",
+              "robot"
+            ],
+            "example": "automatic"
+          },
+          "drivetrain": {
+            "description": "Car`s drivetrain",
+            "type": "string",
+            "enum": [
+              "fwd",
+              "rwd",
+              "awd",
+              "4wd"
+            ],
+            "example": "fwd"
+          },
+          "body_type": {
+            "description": "Car`s body-type",
+            "type": "string",
+            "enum": [
+              "sedan",
+              "hatchback",
+              "wagon",
+              "suv",
+              "coupe",
+              "convertible",
+              "pickup",
+              "van"
+            ],
+            "example": "sedan"
+          },
+          "color": {
+            "description": "Car`s color",
+            "type": "string",
+            "example": "white"
+          },
+          "features": {
+            "description": "Car`s features",
+            "type": "string",
+            "example": "adaptive cruise"
+          },
+          "in_stock": {
+            "description": "Car`s in_stock",
+            "type": "boolean",
+            "example": true
+          }
+        }
+      }
+    },
+    "responses": {
+      "401": {
+        "description": "Unauthorized errors",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 401
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Unauthorized errors"
+                },
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Access token expired"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

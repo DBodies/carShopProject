@@ -1,4 +1,5 @@
 import Joi from 'joi'
+import { ROLES } from '../constant/index.js'
 
 export const createUserSchema = Joi.object({
     name: Joi.string()
@@ -32,7 +33,12 @@ export const createUserSchema = Joi.object({
             'string.min': 'Password must be at least 6 characters',
             'string.empty': 'Password cannot be empty',
             'any.required': 'Password is required'
-        })
+        }),
+    role: {
+        type: String,
+        enum: [ROLES.admin, ROLES.user],
+        default: ROLES.user
+    }
 })
 export const loginUserSchema = Joi.object({
     email: Joi.string()

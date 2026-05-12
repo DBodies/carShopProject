@@ -8,6 +8,7 @@ export const getAllCarsController = async (req,res) => {
     const {page, perPage} = parseFilterParams(req.query)
     const {sortOrder, sortBy} = parseSortParams(req.query)
     const filter = parsedFiltersParams(req.query)
+    console.log(filter)
     const response = await getAllCars({
         page,
         perPage,

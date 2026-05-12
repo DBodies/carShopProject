@@ -1,0 +1,31 @@
+tags:
+  - Cars
+summary: Get all cars
+operationId: getAllCars
+description: 'Getting all cars'
+security: 
+  - bearerAuth:  []
+parameters: []
+responses: 
+  '200':
+    description: Successfully getting all cars
+    content: 
+      application/json:
+        schema:
+          type: object
+          required: 
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Successfully getting all cars
+            data: 
+              type: object
+              $ref: '../../components/schemas/carByIdSchema.yaml'
+  
+              

@@ -7,5 +7,6 @@ const sessionSchema = new Schema({
     accessTokenValidUntil: {type: Date, required: true},
     refreshToken: {type: String, required: true},
     refreshTokenValidUntil: {type: Date, required: true}
-})
+},
+{timeseries: true, versionKey:false})
 export const sessionCollection = mongoose.model('sessionCollection', sessionSchema)

@@ -1,0 +1,18 @@
+type: object
+required:
+  - type
+  - volume_l
+  - power_hp
+
+properties:
+  type:
+    type: string
+    enum: [petrol, diesel, hybrid, electric]
+
+  volume_l:
+    type: number
+    minimum: 0
+
+  power_hp:
+    type: number
+    minimum: 0

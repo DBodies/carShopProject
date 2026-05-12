@@ -1,0 +1,67 @@
+type: object
+required:
+  - _id
+  - brand
+  - model
+  - year
+  - price_usd
+  - mileage_km
+  - engine
+  - transmission
+  - drivetrain
+  - body_type
+  - color
+properties: 
+  _id: 
+    description: 'Cars id'
+    type: string
+    example: ford_focus_2018
+  brand: 
+    description: 'Car`s brand'
+    type: string
+    example: BMW
+  model:
+    description: 'Car`s model'
+    type: string
+    example: BMW_M3
+  year:
+    description: 'Car`s year'
+    type: integer
+    example: 2022
+  price_usd: 
+    description: 'Car`s price'
+    type: integer
+    example: 17800
+  mileage_km:
+    description: 'Car`s mileage'
+    type: integer
+    example: 76000
+  engine: 
+    $ref: './engine.yaml'
+  transmission: 
+    description: 'Car`s transmission'
+    type: string
+    enum: ['manual', 'automatic', 'cvt', 'robot']
+    example: "automatic"
+  drivetrain: 
+    description: 'Car`s drivetrain'
+    type: string
+    enum: ['fwd', 'rwd', 'awd', '4wd']
+    example: 'fwd'
+  body_type: 
+    description: 'Car`s body-type'
+    type: string
+    enum: ['sedan', 'hatchback', 'wagon', 'suv', 'coupe', 'convertible', 'pickup', 'van']
+    example: 'sedan'
+  color: 
+    description: 'Car`s color'
+    type: string
+    example: white
+  features: 
+    description: 'Car`s features'
+    type: string
+    example: adaptive cruise
+  in_stock: 
+    description: 'Car`s in_stock'
+    type: boolean
+    example: true
