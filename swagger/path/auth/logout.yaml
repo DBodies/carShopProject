@@ -1,0 +1,23 @@
+tags:
+  - Auth
+summary: Logout
+operationId: Logout
+description: logout
+security: []
+parameters: []
+responses: 
+  '204':
+    description: Successfully logged out
+    content: 
+      application/json:
+        schema:
+          type: object
+          required: 
+            - status
+            - data
+          properties:
+            status: 
+              type: integer
+              example: 204
+            data:
+              type: object

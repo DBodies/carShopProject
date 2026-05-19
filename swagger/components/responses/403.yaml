@@ -10,15 +10,9 @@ content:
       properties:
         status:
           type: integer
-          example: 401
+          example: 403
         message:
           type: string
-          example: Unauthorized errors
-        data: 
+          example: Forbidden error
+        data:
           type: object
-          required:
-            - message
-          properties:
-            message:
-              type: string
-              example: 'Access token expired or session not found'

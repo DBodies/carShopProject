@@ -1,0 +1,36 @@
+tags:
+  - Auth
+summary: Registration
+operationId: Registration
+description: 'Registration a new user'
+security: []
+parameters: []
+responses:
+  '200':
+    description: Successfully register a new user
+    content: 
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: User created
+            data: 
+              type: object
+              example: {
+                id: 'User id',
+                name: 'Username',
+                email: 'user email'
+              }
+  '400':
+    $ref: ../../components/responses/400.yaml
+  '409':
+    $ref: ../../components/responses/409.yaml

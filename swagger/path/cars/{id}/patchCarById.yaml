@@ -1,9 +1,9 @@
 tags:
-  - Car
-summary: Get Car by id
-operationId: getCar
-description: 'Get car by id'
-security: 
+  - Cars
+summary: Patch car by Id
+operationId: patchCar
+description: 'Updating a car'
+security:
   - bearerAuth: []
 parameters:
   - in: path
@@ -12,14 +12,14 @@ parameters:
     schema: 
       type: string
       example: 'ford_focus_2018'
-responses: 
-  '200': 
-    description:  getting car by id'
-    content: 
+responses:
+  '200':
+    description: 'Car with id ${carId} was updated'
+    content:
       application/json:
         schema:
           type: object
-          required: 
+          required:
             - status
             - message
             - data
@@ -29,9 +29,11 @@ responses:
               example: 200
             message: 
               type: string
-              example: Successfully getting an car by id ford_focus_2018
             data: 
               type: object
-              $ref: '../../../components/schemas/carByIdSchema.yaml'
-  '401': 
+              $ref: '../../../components/schemas/patchCarByIdSchema.yaml'
+  '401':
     $ref: '../../../components/responses/401.yaml'
+  '404':
+    $ref: '../../../components/responses/404.yaml'
+

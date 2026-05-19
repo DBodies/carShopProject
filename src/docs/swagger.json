@@ -20,7 +20,7 @@
   "tags": [
     {
       "name": "Cars",
-      "description": "Operations about users."
+      "description": "Operations about cars."
     },
     {
       "name": "Auth",
@@ -28,10 +28,115 @@
     }
   ],
   "paths": {
+    "/cars/allCars": {
+      "get": {
+        "tags": [
+          "Cars"
+        ],
+        "summary": "Get all cars",
+        "operationId": "getAllCars",
+        "description": "Getting all cars",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successfully getting all cars",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully getting all cars"
+                    },
+                    "data": {
+                      "type": "object",
+                      "$ref": "#/components/schemas/carByIdSchema"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cars/postCar": {
+      "post": {
+        "tags": [
+          "Cars"
+        ],
+        "summary": "create car",
+        "operationId": "createCar",
+        "description": "Create a car with payload",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/carByIdSchema"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successfully upserted an item",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 201
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully upserted an item"
+                    },
+                    "data": {
+                      "type": "object",
+                      "$ref": "#/components/schemas/carByIdSchema"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          }
+        }
+      }
+    },
     "/cars/{id}": {
       "get": {
         "tags": [
-          "Car"
+          "Cars"
         ],
         "summary": "Get Car by id",
         "operationId": "getCar",
@@ -86,25 +191,134 @@
             "$ref": "#/components/responses/401"
           }
         }
-      }
-    },
-    "/cars/allCars": {
-      "get": {
+      },
+      "patch": {
         "tags": [
           "Cars"
         ],
-        "summary": "Get all cars",
-        "operationId": "getAllCars",
-        "description": "Getting all cars",
+        "summary": "Patch car by Id",
+        "operationId": "patchCar",
+        "description": "Updating a car",
         "security": [
           {
             "bearerAuth": []
           }
         ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "ford_focus_2018"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Car with id ${carId} was updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "$ref": "#/components/schemas/patchCarByIdSchema"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Cars"
+        ],
+        "summary": "Delete a car by id",
+        "operationId": "deleteCarBy",
+        "description": "Delete car by id",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "ford_focus_2018"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Delete a car by id",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 204
+                    },
+                    "data": {
+                      "type": "object",
+                      "example": {}
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/auth/get-oauth-url": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "auth url",
+        "operationId": "getOAuthUrl",
+        "description": "generate auth url",
+        "security": [],
         "parameters": [],
         "responses": {
           "200": {
-            "description": "Successfully getting all cars",
+            "description": "Successfully get Google OAuth url",
             "content": {
               "application/json": {
                 "schema": {
@@ -121,16 +335,367 @@
                     },
                     "message": {
                       "type": "string",
-                      "example": "Successfully getting all cars"
+                      "example": "Successfully get Google OAuth url"
                     },
                     "data": {
                       "type": "object",
-                      "$ref": "#/components/schemas/carByIdSchema"
+                      "example": {
+                        "url": "https://accounts.google.com/o/oauth2/v2/auth?scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&response_type=code&client_id=1081276669754-hu4hfdchnnrhdh1n95461h1rra71vnle.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A4330%2Fconfirm-google-auth"
+                      }
                     }
                   }
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/auth/registration": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Registration",
+        "operationId": "Registration",
+        "description": "Registration a new user",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successfully register a new user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "User created"
+                    },
+                    "data": {
+                      "type": "object",
+                      "example": {
+                        "id": "User id",
+                        "name": "Username",
+                        "email": "user email"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Login",
+        "operationId": "Login",
+        "description": "Login user",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successfully logged in",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Logged in"
+                    },
+                    "data": {
+                      "type": "object",
+                      "example": {
+                        "accessToken": "Access token"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "$ref": "#/components/responses/403"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Logout",
+        "operationId": "Logout",
+        "description": "logout",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": "Successfully logged out",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 204
+                    },
+                    "data": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/refresh": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Refresh session",
+        "operationId": "RefreshSession",
+        "description": "Refresh session",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successfully update a session",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully update a session"
+                    },
+                    "data": {
+                      "type": "object",
+                      "example": {
+                        "accessToken": "Session accessToken"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          }
+        }
+      }
+    },
+    "/auth/requestResetEmail": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Request reset email",
+        "operationId": "RequestResetEmail",
+        "description": "Request reset email",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Sent a link for reset password",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Reset password email was successfully sent"
+                    },
+                    "data": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/auth/reset-password": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Reset password",
+        "operationId": "resetPassword",
+        "description": "Reset password",
+        "security": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Change password",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "integer",
+                      "example": 200
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Password successfully changed"
+                    },
+                    "data": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          }
+        }
+      }
+    },
+    "/auth/confirm-auth": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Login or sign up with Google OAuth",
+        "operationId": "loginWithGoogle",
+        "description": "Authenticate user via Google OAuth authorization code.",
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "code"
+                ],
+                "properties": {
+                  "code": {
+                    "type": "string",
+                    "example": "4/0AQSTgQH..."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully authenticated via Google OAuth",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "message",
+                    "data"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully logged in via Google OAuth!"
+                    },
+                    "data": {
+                      "type": "object",
+                      "required": [
+                        "accessToken"
+                      ],
+                      "properties": {
+                        "accessToken": {
+                          "type": "string",
+                          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid Google OAuth code"
+          },
+          "500": {
+            "description": "Internal server error"
           }
         }
       }
@@ -190,8 +755,105 @@
           "_id": {
             "description": "Cars id",
             "type": "string",
-            "example": "65ca67e7ae7f10c88b598384"
+            "example": "ford_focus_2018"
           },
+          "brand": {
+            "description": "Car`s brand",
+            "type": "string",
+            "example": "BMW"
+          },
+          "model": {
+            "description": "Car`s model",
+            "type": "string",
+            "example": "BMW_M3"
+          },
+          "year": {
+            "description": "Car`s year",
+            "type": "integer",
+            "example": 2022
+          },
+          "price_usd": {
+            "description": "Car`s price",
+            "type": "integer",
+            "example": 17800
+          },
+          "mileage_km": {
+            "description": "Car`s mileage",
+            "type": "integer",
+            "example": 76000
+          },
+          "engine": {
+            "$ref": "#/components/schemas/engine"
+          },
+          "transmission": {
+            "description": "Car`s transmission",
+            "type": "string",
+            "enum": [
+              "manual",
+              "automatic",
+              "cvt",
+              "robot"
+            ],
+            "example": "automatic"
+          },
+          "drivetrain": {
+            "description": "Car`s drivetrain",
+            "type": "string",
+            "enum": [
+              "fwd",
+              "rwd",
+              "awd",
+              "4wd"
+            ],
+            "example": "fwd"
+          },
+          "body_type": {
+            "description": "Car`s body-type",
+            "type": "string",
+            "enum": [
+              "sedan",
+              "hatchback",
+              "wagon",
+              "suv",
+              "coupe",
+              "convertible",
+              "pickup",
+              "van"
+            ],
+            "example": "sedan"
+          },
+          "color": {
+            "description": "Car`s color",
+            "type": "string",
+            "example": "white"
+          },
+          "features": {
+            "description": "Car`s features",
+            "type": "string",
+            "example": "adaptive cruise"
+          },
+          "in_stock": {
+            "description": "Car`s in_stock",
+            "type": "boolean",
+            "example": true
+          }
+        }
+      },
+      "patchCarByIdSchema": {
+        "type": "object",
+        "required": [
+          "brand",
+          "model",
+          "year",
+          "price_usd",
+          "mileage_km",
+          "engine",
+          "transmission",
+          "drivetrain",
+          "body_type",
+          "color"
+        ],
+        "properties": {
           "brand": {
             "description": "Car`s brand",
             "type": "string",
@@ -276,6 +938,35 @@
       }
     },
     "responses": {
+      "400": {
+        "description": "Bad request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 400
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Please enter a valid value"
+                },
+                "data": {
+                  "type": "object",
+                  "example": {}
+                }
+              }
+            }
+          }
+        }
+      },
       "401": {
         "description": "Unauthorized errors",
         "content": {
@@ -304,9 +995,94 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "Access token expired"
+                      "example": "Access token expired or session not found"
                     }
                   }
+                }
+              }
+            }
+          }
+        }
+      },
+      "403": {
+        "description": "Unauthorized errors",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 403
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Forbidden error"
+                },
+                "data": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "404": {
+        "description": "Not found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 404
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Not found"
+                },
+                "data": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      },
+      "409": {
+        "description": "Email in use",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 409
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Email in use, please enter a new email"
+                },
+                "data": {
+                  "type": "object",
+                  "example": {}
                 }
               }
             }

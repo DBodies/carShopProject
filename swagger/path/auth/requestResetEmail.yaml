@@ -1,0 +1,29 @@
+tags:
+  - Auth
+summary: Request reset email
+operationId: RequestResetEmail
+description: 'Request reset email'
+security: []
+parameters: []
+responses:
+  '200':
+    description: Sent a link for reset password
+    content: 
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 200
+            message:
+              type: string
+              example: Reset password email was successfully sent
+            data: 
+              type: object
+  '404':
+    $ref: ../../components/responses/404.yaml

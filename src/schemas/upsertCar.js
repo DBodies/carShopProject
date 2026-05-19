@@ -217,7 +217,7 @@ export const carPatchSchema = Joi.object({
   })
 
 })
-  .min(1) // важно — хотя бы одно поле должно прийти
+  .min(1)
   .messages({
     'object.min': 'At least one field must be provided for update'
   })

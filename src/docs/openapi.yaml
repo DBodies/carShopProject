@@ -8,19 +8,50 @@ info:
   description: this is a documentation of cars app
 tags:
   - name: Cars
-    description: Operations about users.
+    description: Operations about cars.
   - name: Auth
     description: Auth operations.
 servers:
   - url: http://localhost:4330
   - url: https://example.com/api/v1
 paths:
-  /cars/{id}:
-    get:
-      $ref: ../../swagger/path/cars/id/getCarById.yaml
   /cars/allCars:
     get: 
       $ref: ../../swagger/path/cars/getAllCars.yaml
+  /cars/postCar:
+    post: 
+      $ref: ../../swagger/path/cars/{id}/postCar.yaml
+  /cars/{id}:
+    get:
+      $ref: ../../swagger/path/cars/{id}/getCarById.yaml
+    patch: 
+      $ref: ../../swagger/path/cars/{id}/patchCarById.yaml
+    delete: 
+      $ref: ../../swagger/path/cars/{id}/deleteCar.yaml
+  /auth/get-oauth-url:
+    get: 
+      $ref: ../../swagger/path/auth/getOauthUrl.yaml
+  /auth/registration:
+    post: 
+      $ref: ../../swagger/path/auth/registration.yaml
+  /auth/login:
+    post: 
+      $ref: ../../swagger/path/auth/login.yaml
+  /auth/logout:
+    post: 
+      $ref: ../../swagger/path/auth/logout.yaml
+  /auth/refresh:
+    post: 
+      $ref: ../../swagger/path/auth/refreshSession.yaml
+  /auth/requestResetEmail:
+    post: 
+      $ref: ../../swagger/path/auth/requestResetEmail.yaml
+  /auth/reset-password:
+    post: 
+      $ref: ../../swagger/path/auth/resetPassword.yaml
+  /auth/confirm-auth:
+    post: 
+      $ref: ../../swagger/path/auth/confirmAuth.yaml
 components:
   securitySchemes:
     bearerAuth:

@@ -39,10 +39,13 @@ export const deleteCarByIdController = async (req,res) => {
 export const upsertedCarController = async (req,res,next) => {
     const {carId} = req.params
     if(!carId) {
-    next(createHttpError(400, `car with id ${carId} was not found`))
+    next(createHttpError(400, `Car ID is required`))
     return
     }
-    const result = await upsertedCar(carId, req.body, {upsert: true})
+    const result = await upsertedCar(carId, req.body, { upsert: true })
+    if(!result) {
+   next(createHttpError(404, 'Car not found'))
+}
     const status = result.isNew ? 201 : 200
     res.status(status).json({
         message: "Successfully upserted an item",
@@ -52,7 +55,7 @@ export const upsertedCarController = async (req,res,next) => {
 export const patchCarController = async (req,res,next) => {
     const {carId} = req.params
     if(!carId) {
-    next(createHttpError(404, `car with id ${carId} was not found`))
+    next(createHttpError(404, `ar with id ${carId} was not found`))
     return 
     }
     const result = await upsertedCar(carId, req.body)

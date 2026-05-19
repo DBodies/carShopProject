@@ -1,0 +1,34 @@
+tags: 
+  - Cars
+summary: Delete a car by id
+operationId: deleteCarBy
+description: 'Delete car by id'
+security:
+  - bearerAuth: []
+parameters:
+  - in: path
+    name: id
+    required: true
+    schema: 
+      type: string
+      example: 'ford_focus_2018'
+responses:
+  '204':
+    description: Delete a car by id
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - data
+          properties:
+            status: 
+              type: integer
+              example: 204
+            data:
+              type: object
+              example: {}
+  '404':
+    $ref: '../../../components/responses/404.yaml'
+

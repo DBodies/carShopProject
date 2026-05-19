@@ -34,7 +34,7 @@ if(!user) {
     } 
     const isEqual = await bcrypt.compare(payload.password, user.password)
     if(!isEqual) {
-        throw createHttpError(403, 'Unauthorized')
+        throw createHttpError(403, 'Forbidden')
     }
     await sessionCollection.deleteOne({userId: user._ud})
 
@@ -124,7 +124,7 @@ export const resetPassword = async (payload) => {
         _id: entries.sub
     })
     if (!user) {
-        throw createHttpError(401, 'User not found')
+        throw createHttpError(404, 'User not found')
     }
     const encryptedPassword = await bcrypt.hash(payload.password, 10)
     await userCollection.updateOne(

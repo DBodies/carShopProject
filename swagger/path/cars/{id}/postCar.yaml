@@ -1,0 +1,36 @@
+tags: 
+  - Cars
+summary: create car
+operationId: createCar
+description: 'Create a car with payload'
+security: 
+  - bearerAuth: []
+requestBody:
+  content:
+    application/json:
+      schema:
+        $ref: ../../../components/schemas/carByIdSchema.yaml
+responses: 
+  '201':
+    description: Successfully upserted an item
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 201
+            message:
+              type: string
+              example: Successfully upserted an item
+            data:
+              type: object
+              $ref: ../../../components/schemas/carByIdSchema.yaml
+  '401':
+    $ref: ../../../components/responses/401.yaml
+
